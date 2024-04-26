@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/Admin/AD_GuiTB.jsp" value="file://$PROJECT_DIR$/src/main/webapp/Admin" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/Admin/AD_TTGV.jsp" value="file://$PROJECT_DIR$/src/main/webapp/Admin" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_DSDeTai.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_DTNghiemThu.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_DTXetDuyetDC.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_DuyettDeCuong.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_NghiemThuDT.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_ThongTinCaNhan.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/GiangVien/GV_ThongTinDT.jsp" value="file://$PROJECT_DIR$/src/main/webapp/GiangVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/HoiDong/HD_XemThongBao.jsp" value="file://$PROJECT_DIR$/src/main/webapp/HoiDong" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_BaoCao.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_DKDT.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_HuyDT.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_ThongBao.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_ThongTinSV.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_XemChiTietDT.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/SinhVien/SV_XemThongBao.jsp" value="file://$PROJECT_DIR$/src/main/webapp/SinhVien" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+      </map>
+    </option>
+  </component>
+</project>
