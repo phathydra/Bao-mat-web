@@ -234,41 +234,41 @@
             <div class="container-fluid">
 
                 <h1 class="h3 mb-2 text-gray-800">THÔNG BÁO </h1>
-                        <!-- Textbox 4 -->
-                    <div class="mb-3">
-                        <label for="MaTB">MÃ THÔNG BÁO : </label>
-                        <input type="text" value = "<c:out value = '${existthongbao.maTB}' />" class="form-control" id="MaTB" name = "MaTB">
-                    </div>
-                    <div class="mb-3">
-                            <!-- Textbox 1 -->
-                        <label for="TenThongBao">THÔNG BÁO </label>
-                        <textarea class="form-control" id="TenThongBao" name="TenThongBao"><c:out value="${existthongbao.tenThongBao}" /></textarea>
-                    </div>
-                    <div class="mb-3">
-                            <!-- Textbox 1 -->
-                        <label for="TenThongBao">NỘI DUNG THÔNG BÁO </label>
-                        <textarea class="form-control" id="NoiDungTB" name="NoiDungTB"><c:out value="${existthongbao.noiDungTB}" /></textarea>
-                    </div>
+                <!-- Textbox 4 -->
+                <div class="mb-3">
+                    <label for="MaTB">MÃ THÔNG BÁO : </label>
+                    <input type="text" value = "<c:out value = '${existthongbao.maTB}' />" class="form-control" id="MaTB" name = "MaTB">
+                </div>
+                <div class="mb-3">
+                    <!-- Textbox 1 -->
+                    <label for="TenThongBao">THÔNG BÁO </label>
+                    <textarea class="form-control" id="TenThongBao" name="TenThongBao"><c:out value="${existthongbao.tenThongBao}" /></textarea>
+                </div>
+                <div class="mb-3">
+                    <!-- Textbox 1 -->
+                    <label for="TenThongBao">NỘI DUNG THÔNG BÁO </label>
+                    <textarea class="form-control" id="NoiDungTB" name="NoiDungTB"><c:out value="${existthongbao.noiDungTB}" /></textarea>
+                </div>
             </div>
             <!-- Begin Page Content -->
 
             <!-- /.container-fluid -->
 
-        <!-- End of Main Content -->
+            <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span></span>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span></span>
+                    </div>
                 </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
-            </div>
+            </footer>
+            <!-- End of Footer -->
         </div>
     </div>
-    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Content Wrapper -->
 
 </div>
 <!-- End of Page Wrapper -->

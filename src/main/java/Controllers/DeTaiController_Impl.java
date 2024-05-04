@@ -46,37 +46,39 @@ public class DeTaiController_Impl extends HttpServlet {
         String action  = request.getPathInfo();
         System.out.println("Action: " + action); // Thêm dòng này để in ra giá trị của action
         try {
-            if (action.equals("/GV_list_DeTaiController")) {
-                listdetai_GiangVien(request, response);
-            } else if (action.equals("/GV_list_DeTaiHuongDanController"))
-            {
-                listdetaihuongdan(request, response);
-            } else if (action.equals("/GV_list_DeTaiXetDuyetDeCuongController"))
-            {
-                listdetaiduyetdecuong(request, response);
-            }else if (action.equals("/GV_list_DeTaiNghiemThuController"))
-            {
-                listdetainghiemthu(request, response);
-            }
-            else if (action.equals("/GV_ChiTietDeTai"))
-            {
-                showChitietdetai(request, response);
-            }else if (action.equals("/GV_ShowFormXetDuyetDeTai")) {
-                showChitietdetaiduyet(request, response);
-            } else if ( action.equals("/GV_XetDuyetDeTai")) {
-                updateDuyetdecuong(request, response);
-            } else if (action.equals("/GV_ShowFormNghiemThuDeTai"))
-            {
-                showChitietdetainghiemthu(request, response);
-            }
-            else if (action.equals("/GV_NghiemThuDeTai"))
-            {
-                updateNghiemthu(request, response);
-            }
-            else
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
+            switch (action) {
+                case "/GV_list_DeTaiController":
+                    listdetai_GiangVien(request, response);
+                    break;
+                case "/GV_list_DeTaiHuongDanController":
+                    listdetaihuongdan(request, response);
+                    break;
+                case "/GV_list_DeTaiXetDuyetDeCuongController":
+                    listdetaiduyetdecuong(request, response);
+                    break;
+                case "/GV_list_DeTaiNghiemThuController":
+                    listdetainghiemthu(request, response);
+                    break;
+                case "/GV_ChiTietDeTai":
+                    showChitietdetai(request, response);
+                    break;
+                case "/GV_ShowFormXetDuyetDeTai":
+                    showChitietdetaiduyet(request, response);
+                    break;
+                case "/GV_XetDuyetDeTai":
+                    updateDuyetdecuong(request, response);
+                    break;
+                case "/GV_ShowFormNghiemThuDeTai":
+                    showChitietdetainghiemthu(request, response);
+                    break;
+                case "/GV_NghiemThuDeTai":
+                    updateNghiemthu(request, response);
+                    break;
+                default:
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request, response);
+                    break;
             }
 
         } catch (SQLException ex) {
