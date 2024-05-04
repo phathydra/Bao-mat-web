@@ -292,6 +292,29 @@
                                         <input type="text" id="Nienkhoa" value="${sinhvien.nienKhoa}"  name="Nienkhoa" class="form-control" readonly >
                                     </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="NgayNop" class="form-label">Ngày nộp báo cáo đề tài : </label>
+                                    <input type="date" id="NgayNop" name="NgayNop" value="${dangky.ngayDangKy}" class="form-control" maxlength="11" readonly>
+                                </div>
+                                <script>
+                                    function validateInputLength(inputElement, maxLength) {
+                                        if (inputElement.value.length > maxLength) {
+                                            inputElement.value = inputElement.value.slice(0, maxLength);
+                                        }
+                                    }
+                                    // Lấy ngày hiện tại
+                                    let currentDate = new Date();
+
+                                    // Định dạng ngày thành chuỗi "yyyy-mm-dd"
+                                    let formattedDate = currentDate.toISOString().slice(0, 10);
+
+                                    // Gán giá trị đã định dạng vào trường input
+                                    document.getElementById('NgayNop').value = formattedDate;
+                                </script>
+                                <div class="mb-3">
+                                    <label for="LinkDeTai" class="form-label">Link nộp báo cáo đề tài :</label>
+                                    <textarea id="LinkDeTai" name="LinkDeTai" class="form-control" rows="4"></textarea>
                             </div>
                             <div class="mb-3" >
                                 <h4>2. Thông tin nhóm tham gia đề tài :</h4>

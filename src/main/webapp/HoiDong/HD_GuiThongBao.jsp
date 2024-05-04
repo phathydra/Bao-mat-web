@@ -344,7 +344,7 @@
 
                              <div class="mb-3">
                                  <label for="NgayGui" class="form-label">Ngày gửi:</label>
-                                 <input type="date" class="form-control" id="NgayGui" name="NgayGui" readonly>
+                                 <input type="date" class="form-control" id="NgayGui" name="NgayGui" maxlength="11" readonly>
                              </div>
                              <div class="mb-3">
                                  <button type="submit" class="btn btn-success">Tạo thông báo</button>

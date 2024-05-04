@@ -348,14 +348,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="NgayBatDau_DK">Ngày bắt đầu đăng ký:</label>
-                                            <input type="date" class="form-control" id="NgayBatDau_DK" name="NgayBatDau_DK"  onchange="kiemTraNgay()">
+                                            <input type="date" class="form-control" id="NgayBatDau_DK" name="NgayBatDau_DK"  onchange="kiemTraNgay()" maxlength="11">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="NgayKetThuc_DK">Ngày kết thúc đăng ký:</label>
-                                            <input type="date" class="form-control" id="NgayKetThuc_DK" name="NgayKetThuc_DK" onchange="kiemTraNgay()">
+                                            <input type="date" class="form-control" id="NgayKetThuc_DK" name="NgayKetThuc_DK" onchange="kiemTraNgay()" maxlength="11">
                                         </div>
                                     </div>
                                 </div>
@@ -364,14 +364,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="NgayBatDau_XD">Ngày bắt đầu xét duyệt:</label>
-                                            <input type="date" class="form-control" id="NgayBatDau_XD" name="NgayBatDau_XD" onchange="kiemTraNgay()">
+                                            <input type="date" class="form-control" id="NgayBatDau_XD" name="NgayBatDau_XD" onchange="kiemTraNgay()" maxlength="11">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="NgayKetThuc_XD">Ngày kết thúc xét duyệt:</label>
-                                            <input type="date" class="form-control" id="NgayKetThuc_XD" name="NgayKetThuc_XD" onchange="kiemTraNgay()">
+                                            <input type="date" class="form-control" id="NgayKetThuc_XD" name="NgayKetThuc_XD" onchange="kiemTraNgay()" maxlength="11">
                                         </div>
                                     </div>
 
@@ -382,14 +382,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="NgayBatDau_NT">Ngày bắt đầu nghiệm thu:</label>
-                                            <input type="date" class="form-control" id="NgayBatDau_NT" name="NgayBatDau_NT" onchange="kiemTraNgay()">
+                                            <input type="date" class="form-control" id="NgayBatDau_NT" name="NgayBatDau_NT" onchange="kiemTraNgay()" maxlength="11">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="NgayKetThuc_NT">Ngày kết thúc nghiệm thu:</label>
-                                            <input type="date" class="form-control" id="NgayKetThuc_NT" name="NgayKetThuc_NT" onchange="kiemTraNgay()">
+                                            <input type="date" class="form-control" id="NgayKetThuc_NT" name="NgayKetThuc_NT" onchange="kiemTraNgay()" maxlength="11">
                                         </div>
                                     </div>
                                 </div>
