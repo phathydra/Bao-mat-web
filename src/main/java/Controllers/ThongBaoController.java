@@ -2,9 +2,7 @@ package Controllers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -12,10 +10,10 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 
 import Models.Dangky;
 import Models.Detai;
@@ -33,8 +31,28 @@ public class ThongBaoController extends HttpServlet {
         thongBaoDAO = new ThongBaoDAO();
     }
 
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Tạo một cookie
+        Cookie myCookie = new Cookie("myCookieName", "myCookieValue");
+
+        // Đặt các thuộc tính cho cookie (tuỳ chọn)
+        myCookie.setMaxAge(3600);  // Thời gian sống của cookie (ví dụ: 1 giờ)
+        myCookie.setPath("/");     // Phạm vi của cookie (ví dụ: toàn bộ trang web)
+        myCookie.setHttpOnly(true); // Đặt HttpOnly flag
+        myCookie.setSecure(true);   // Set Secure flag
+
+        // Thêm cookie vào response
+        response.addCookie(myCookie);
+        // Set the SameSite attribute in the Set-Cookie header
+        String cookieHeader = response.getHeader("Set-Cookie");
+        if (cookieHeader != null) {
+            cookieHeader += "; SameSite=Strict";
+        } else {
+            cookieHeader = "SameSite=Strict";
+        }
+        response.setHeader("Set-Cookie", cookieHeader);
         doGet(request, response);
     }
 
@@ -89,6 +107,7 @@ public class ThongBaoController extends HttpServlet {
     private void  listthongbaosinhvien(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         HttpSession session = request.getSession();
+
         List<Thongbao> listthongbao = thongBaoDAO.geAllThongBao();
         request.setAttribute("listthongbao", listthongbao);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_ThongBao.jsp");
@@ -116,6 +135,25 @@ public class ThongBaoController extends HttpServlet {
     private void  listthongbaoadmin(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         HttpSession session = request.getSession();
+        // Tạo một cookie
+        Cookie myCookie = new Cookie("myCookieName", "myCookieValue");
+
+        // Đặt các thuộc tính cho cookie (tuỳ chọn)
+        myCookie.setMaxAge(3600);  // Thời gian sống của cookie (ví dụ: 1 giờ)
+        myCookie.setPath("/");     // Phạm vi của cookie (ví dụ: toàn bộ trang web)
+        myCookie.setHttpOnly(true); // Đặt HttpOnly flag
+        myCookie.setSecure(true);   // Set Secure flag
+
+        // Thêm cookie vào response
+        response.addCookie(myCookie);
+        // Set the SameSite attribute in the Set-Cookie header
+        String cookieHeader = response.getHeader("Set-Cookie");
+        if (cookieHeader != null) {
+            cookieHeader += "; SameSite=Strict";
+        } else {
+            cookieHeader = "SameSite=Strict";
+        }
+        response.setHeader("Set-Cookie", cookieHeader);
         List<Thongbao> listthongbao = thongBaoDAO.geAllThongBao();
         request.setAttribute("listthongbao", listthongbao);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AD_ThongBao.jsp");
@@ -141,13 +179,32 @@ public class ThongBaoController extends HttpServlet {
 
     }
     private void AD_ShowFormXemChiTietThongBao(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
+            throws SQLException, IOException, ServletException {
+        // Lấy thông tin về thông báo từ request hoặc cơ sở dữ liệu
         String MaTB = request.getParameter("MaTB");
         Thongbao existthongbao = thongBaoDAO.selectThongBaoByMaTB(MaTB);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AD_XemThongBao.jsp");
-        request.setAttribute("existthongbao", existthongbao);
-        dispatcher.forward(request, response);
+        Cookie myCookie = new Cookie("myCookieName", "myCookieValue");
 
+        // Đặt các thuộc tính cho cookie (tuỳ chọn)
+        myCookie.setMaxAge(3600);  // Thời gian sống của cookie (ví dụ: 1 giờ)
+        myCookie.setPath("/");     // Phạm vi của cookie (ví dụ: toàn bộ trang web)
+        myCookie.setHttpOnly(true); // Đặt HttpOnly flag
+        myCookie.setSecure(true);   // Set Secure flag
+
+        // Thêm cookie vào response
+        response.addCookie(myCookie);
+        // Set the SameSite attribute in the Set-Cookie header
+        String cookieHeader = response.getHeader("Set-Cookie");
+        if (cookieHeader != null) {
+            cookieHeader += "; SameSite=Strict";
+        } else {
+            cookieHeader = "SameSite=Strict";
+        }
+        response.setHeader("Set-Cookie", cookieHeader);
+        // Các đoạn mã khác trong phương thức
+        request.setAttribute("existthongbao", existthongbao);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AD_XemThongBao.jsp");
+        dispatcher.forward(request, response);
     }
     private void HD_ShowFormXemChiTietThongBao(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
