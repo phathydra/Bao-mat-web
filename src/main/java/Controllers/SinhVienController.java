@@ -49,20 +49,27 @@ public class SinhVienController extends HttpServlet {
             throws ServletException, IOException {
         String action  = request.getPathInfo(); // cách lấy đường dẫn con trong trường hợp servlet chia nhánh
         try {
-            if (action.equals("/ThongTinSinhVien")) {
-                showThongTinSinhVienForm(request, response);
-            }else if (action.equals("/AD_ShowThongTinSinhVien")) {
-                AD_showThongTinSinhVienForm(request, response);
-            } else if(action.equals("/AD_list_SinhVienController")){
-                listsinhvien(request, response);
-            } else if(action.equals("/AD_Update_thongtinSV")){
-                UpdateSinhVien(request, response);
-            }else if(action.equals("/AD_InsertSinhvien")) {
-                insertSinhvien(request, response);
-            }else
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
+            switch (action) {
+                case "/ThongTinSinhVien":
+                    showThongTinSinhVienForm(request, response);
+                    break;
+                case "/AD_ShowThongTinSinhVien":
+                    AD_showThongTinSinhVienForm(request, response);
+                    break;
+                case "/AD_list_SinhVienController":
+                    listsinhvien(request, response);
+                    break;
+                case "/AD_Update_thongtinSV":
+                    UpdateSinhVien(request, response);
+                    break;
+                case "/AD_InsertSinhvien":
+                    insertSinhvien(request, response);
+                    break;
+                default:
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);

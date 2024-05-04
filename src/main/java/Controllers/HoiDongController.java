@@ -48,19 +48,28 @@ public class HoiDongController extends HttpServlet  {
             throws ServletException, IOException {
         String action = request.getPathInfo();
         try {
-            if(action.equals("/list_HoiDongController")) {
-                listqlHoidong(request, response);
-            } else if(action.equals("/UpdateGiangVienHD")){
-                updateGiangVienHD(request, response);
-            } else if(action.equals("/ThongTinGVHD")){
-                editThongTinGiangvienHD(request, response);
-            } else if(action.equals("/insertGVHD")) {
-                InsertGVHD(request, response);
-            } else if(action.equals("/XoaTVKhoiHD")){
-                XoaTVHD(request, response);
-            } else{
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-                dispatcher.forward(request, response);}
+            switch (action) {
+                case "/list_HoiDongController":
+                    listqlHoidong(request, response);
+                    break;
+                case "/UpdateGiangVienHD":
+                    updateGiangVienHD(request, response);
+                    break;
+                case "/ThongTinGVHD":
+                    editThongTinGiangvienHD(request, response);
+                    break;
+                case "/insertGVHD":
+                    InsertGVHD(request, response);
+                    break;
+                case "/XoaTVKhoiHD":
+                    XoaTVHD(request, response);
+                    break;
+                default:
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+                    dispatcher.forward(request, response);
+                    break;
+            }
         }
         catch (SQLException ex) {
             throw new ServletException(ex);

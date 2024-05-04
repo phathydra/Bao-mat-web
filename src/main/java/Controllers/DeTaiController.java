@@ -73,6 +73,8 @@ public class DeTaiController extends HttpServlet {
                     NopBaoCaoDeTai(request, response);
                     break;
                 default:
+
+
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
                     dispatcher.forward(request, response);
                     break;
