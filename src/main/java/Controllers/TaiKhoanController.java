@@ -21,6 +21,8 @@ import Models.Sinhvien;
 import Models.Taikhoan;
 import DAO.TaiKhoanDAO;
 import com.example.nhom221.HelloServlet;
+import com.example.nhom221.CSRFToken;
+
 
 @WebServlet("/Taikhoan/*")
 public class TaiKhoanController extends HttpServlet{
@@ -33,10 +35,26 @@ public class TaiKhoanController extends HttpServlet{
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String csrfToken = request.getParameter("csrfToken");
+
+        // Kiểm tra token CSRF
+        if (!CSRFToken.isValidToken(csrfToken)) {
+            // Token không hợp lệ, xử lý lỗi CSRF (ví dụ: chuyển hướng hoặc hiển thị thông báo lỗi)
+            response.sendRedirect(request.getContextPath() + "/error/csrf");
+            return;
+        }
         String action  = request.getPathInfo(); // cách lấy đường dẫn con trong trường hợp servlet chia nhánh
         try {
             if (action.equals("/login")) {
                 login(request, response);
+            }else if(action.equals("/AD_ShowThongTinTK")){
+                showThongTinTK(request, response);
+            } else if(action.equals("/AD_list_qlTaiKhoanController")){
+                listqlTaikhoan(request, response);
+            } else if(action.equals("/AD_UpdateThongtinTK")){
+                updateTaikhoan(request, response);
+            } else if(action.equals("/AD_DeleteThongtinTK")){
+                deleteTaikhoan(request, response);
             } else {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
                 dispatcher.forward(request, response);
@@ -50,7 +68,7 @@ public class TaiKhoanController extends HttpServlet{
         doGet(request, response);
     }
     // nhớ đổi lại tên file index sang login cho file main index sau khi xong function
-    @SuppressWarnings("CallToPrintStackTrace")
+    //@SuppressWarnings("CallToPrintStackTrace")
     private void login(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         String TenDangNhap = request.getParameter("tenDangNhap");
         String Password = request.getParameter("password");
@@ -99,5 +117,42 @@ public class TaiKhoanController extends HttpServlet{
                 e.printStackTrace();
             }
         }
+    }
+    private void listqlTaikhoan(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+        List<Taikhoan> listqlTaikhoan = taiKhoanDAO.getAllTK();
+        request.setAttribute("listqlTaikhoan", listqlTaikhoan);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AD_QLTK.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void showThongTinTK(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        String maTK = request.getParameter("maTK");
+        Taikhoan tk = taiKhoanDAO.SelectTaiKhoan(maTK);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AD_TTTK.jsp");
+        request.setAttribute("tk", tk);
+        dispatcher.forward(request,response);
+    }
+
+    private void updateTaikhoan(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String MaTK = request.getParameter("MaTK");
+        String TenDangNhap = request.getParameter("TenDangNhap");
+        String Email = request.getParameter("Email");
+        String Password = request.getParameter("Password");
+        String HoTen = request.getParameter("HoTen");
+        String TenLoaiTK = request.getParameter("TenLoaiTK");
+
+        Taikhoan updateTaikhoan = new Taikhoan(MaTK, TenDangNhap, Email, Password, HoTen, TenLoaiTK, "TRUE");
+        taiKhoanDAO.UpdateTaikhoan(updateTaikhoan);
+        response.sendRedirect(request.getContextPath() + "/Taikhoan/AD_list_qlTaiKhoanController");
+    }
+
+    private void deleteTaikhoan(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String MaTK = request.getParameter("MaTK");
+        taiKhoanDAO.deleteUser(MaTK);
+        response.sendRedirect(request.getContextPath() + "/Taikhoan/AD_list_qlTaiKhoanController");
     }
 }

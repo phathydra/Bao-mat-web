@@ -1,0 +1,82 @@
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+        }
+        
+        fieldset{
+            border: 1px solid black;
+            width: 550px;
+        }
+        
+        
+        
+        .login-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            text-align: center;
+            width: 400px; /* Chỉnh chiều rộng của box */
+        }
+
+        .form-group {
+            display: flex;
+	        align-items: center;
+	        margin-bottom: 10px;
+	        margin-left: 20px;
+        }
+
+        .form-group label {
+            flex: 0 0 150px; /* Định rộng cho nhãn (label) */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 360px;
+            background-color:  rgb(192, 192, 192);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-left: -20px; /* Dịch chuyển vị trí sang phải */
+    		margin-top: 10px; /* Dịch chuyển vị trí lên trên */
+    		margin-right: 30px;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .radio-button {
+            margin-left: 20px;
+        }
+        
+        .label-radio{
+			margin-right: 20px;
+			margin-left: 10px;
+		}
+
+        .login-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: rgb(103, 207, 237);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 auto; /* Canh giữa theo chiều ngang */
+            display: block; /* Hiển thị button là block element */
+        }
+        
+        .demuc{
+			    display: inline-block;
+			    width: 150px;
+			    margin-top: 20px;
+			    font-weight: bold;
+			    margin-left: 20px;
+		}

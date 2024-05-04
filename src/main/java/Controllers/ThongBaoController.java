@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -16,10 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Models.Dangky;
+import Models.Detai;
 import Models.Thongbao;
 import DAO.ThongBaoDAO;
-import com.example.nhom221.HelloServlet;
-
+import com.example.nhom221.CSRFToken;
 
 @WebServlet("/ThongBao/*")
 public class ThongBaoController extends HttpServlet {
@@ -32,38 +34,68 @@ public class ThongBaoController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //setNoSniffHeader(response);
         doGet(request, response);
     }
-
+//    private void setNoSniffHeader(HttpServletResponse response) {
+//        response.setHeader("X-Content-Type-Options", "nosniff");
+//    }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //setNoSniffHeader(response);
+        String csrfToken = request.getParameter("csrfToken");
+
+        // Kiểm tra token CSRF
+        if (!CSRFToken.isValidToken(csrfToken)) {
+            // Token không hợp lệ, xử lý lỗi CSRF (ví dụ: chuyển hướng hoặc hiển thị thông báo lỗi)
+            response.sendRedirect(request.getContextPath() + "/error/csrf");
+            return;
+        }
         String action  = request.getPathInfo();
         System.out.println("Action: " + action); // Thêm dòng này để in ra giá trị của action
         try {
-            if (action.equals("/list_ThongBaoSinhVienController")) {
-                listthongbaosinhvien(request, response);
-            } else if (action.equals("/list_ThongBaoGiangVienController"))
-            {
-                listthongbaogiangvien(request, response);
-            }
-            else if (action.equals("/list_ThongBaoHoiDongController"))
-            {
-                listthongbaohoidong(request, response);
-            }
-            else if ( action.equals("/list_ThongBaoAdminController"))
-            {
-                listthongbaoadmin(request, response);
-            }
-            else
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
+            switch (action) {
+                case "/list_ThongBaoSinhVienController":
+                    listthongbaosinhvien(request, response);
+                    break;
+                case "/list_ThongBaoGiangVienController":
+                    listthongbaogiangvien(request, response);
+                    break;
+                case "/list_ThongBaoHoiDongController":
+                    listthongbaohoidong(request, response);
+                    break;
+                case "/list_ThongBaoAdminController":
+                    listthongbaoadmin(request, response);
+                    break;
+                case "/SV_Xemchitietthongbao":
+                    SV_ShowFormXemChiTietThongBao(request, response);
+                    break;
+                case "/GV_Xemchitietthongbao" :
+                    GV_ShowFormXemChiTietThongBao(request, response);
+                    break;
+                case "/HD_Xemchitietthongbao" :
+                    HD_ShowFormXemChiTietThongBao(request, response);
+                    break;
+                case "/AD_Xemchitietthongbao" :
+                    AD_ShowFormXemChiTietThongBao(request, response);
+                    break;
+                case "/DanhSachThongBao":
+                    listthongbaothem(request, response);
+                    break;
+                case "/ThemThongBao":
+                    themThongBao(request, response);
+                    break;
+                default:
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request, response);
+                    break;
             }
 
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
     }
+
 
     private void  listthongbaosinhvien(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
@@ -88,7 +120,7 @@ public class ThongBaoController extends HttpServlet {
         HttpSession session = request.getSession();
         List<Thongbao> listthongbao = thongBaoDAO.geAllThongBao();
         request.setAttribute("listthongbao", listthongbao);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/HoiDong/HD_XemThongBao.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/HoiDong/HD_ThongBao.jsp");
         dispatcher.forward(request, response);
 
     }
@@ -101,5 +133,69 @@ public class ThongBaoController extends HttpServlet {
         dispatcher.forward(request, response);
 
     }
+    private void SV_ShowFormXemChiTietThongBao(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        String MaTB = request.getParameter("MaTB");
+        Thongbao existthongbao = thongBaoDAO.selectThongBaoByMaTB(MaTB);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_XemThongBao.jsp");
+        request.setAttribute("existthongbao", existthongbao);
+        dispatcher.forward(request, response);
+
+    }
+    private void GV_ShowFormXemChiTietThongBao(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        String MaTB = request.getParameter("MaTB");
+        Thongbao existthongbao = thongBaoDAO.selectThongBaoByMaTB(MaTB);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/GiangVien/GV_XemThongBao.jsp");
+        request.setAttribute("existthongbao", existthongbao);
+        dispatcher.forward(request, response);
+
+    }
+    private void AD_ShowFormXemChiTietThongBao(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        String MaTB = request.getParameter("MaTB");
+        Thongbao existthongbao = thongBaoDAO.selectThongBaoByMaTB(MaTB);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AD_XemThongBao.jsp");
+        request.setAttribute("existthongbao", existthongbao);
+        dispatcher.forward(request, response);
+
+    }
+    private void HD_ShowFormXemChiTietThongBao(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+        String MaTB = request.getParameter("MaTB");
+        Thongbao existthongbao = thongBaoDAO.selectThongBaoByMaTB(MaTB);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/HoiDong/HD_XemThongBao.jsp");
+        request.setAttribute("existthongbao", existthongbao);
+        dispatcher.forward(request, response);
+
+    }
+
+    private void themThongBao(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String MaTB = request.getParameter("MaTB");
+        String TenThongBao = request.getParameter("TenThongBao");
+        String NoiDungTB = request.getParameter("NoiDungTB");
+
+        Date NgayGui = Date.valueOf(request.getParameter("NgayGui"));
+        //String MaSoQL = request.getParameter("MaSoQL");
+        HttpSession session = request.getSession();
+        String matk = (String) session.getAttribute("matk");
+
+        System.out.println("Dòng  themThongBao: " + MaTB +" " + matk);
+        //Thongbao thongbao = new Thongbao(MaTB, TenThongBao, NoiDungTB, NgayGui, MaSoQL, matk);
+        thongBaoDAO.themthongbao(MaTB, TenThongBao, NoiDungTB, NgayGui, matk);
+
+        response.sendRedirect("DanhSachThongBao");
+    }
+    private void listthongbaothem(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+        List<Thongbao> listthongbao = thongBaoDAO.geAllThongBao();
+        request.setAttribute("listthongbao", listthongbao);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/HoiDong/HD_GuiThongBao.jsp");
+        dispatcher.forward(request, response);
+    }
+
+
 
 }

@@ -1,4 +1,6 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.example.nhom221.CSRFToken" %>
 <html>
 <head>
     <title>Đăng nhập</title>
@@ -61,7 +63,7 @@
                 <label for="password" class="demuc">Mật khẩu:</label>
                 <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required title="Mật khẩu phải có ít nhất 5 ký tự." pattern=".{5,}">
             </div>
-        <a>
+        <a><input type="hidden" name="csrfToken" value="<%=CSRFToken.generateToken()%>">
             <button type="submit" class="login-button" onclick="loginAndRedirect()">Đăng nhập</button>
         </a>
     </form>

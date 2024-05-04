@@ -257,5 +257,53 @@ public class DangKyDAO {
             return detais;
         }
 
+    public List<Detai> ListDeTaiNopBaoCao(String MaTK) {
+        List<Detai> detais = new ArrayList<>();
+        Connection conn = JDBCUtil.getConnection();
+        try {
+            String sqlLisDeTaiNopBaoCao=
+                    "SELECT dt.*, dk.*, nganh.TenNganh, trangthai.TenTrangThai, giangvien.TenGV " +
+                            "FROM sinhvien sv " +
+                            "JOIN nhom n ON sv.MaNhom = n.MaNhom " +
+                            "JOIN dangky dk ON n.MaNhom = dk.MaNhom " +
+                            "JOIN detai dt ON dk.MaDT = dt.MaDT " +
+                            "INNER JOIN nganh ON dt.MaNganh = nganh.MaNganh " +
+                            "INNER JOIN trangthai ON dt.MaTrangThai = trangthai.MaTrangThai " +
+                            "INNER JOIN giangvien ON dt.MSGV = giangvien.MSGV " +
+                            "WHERE sv.MaTK = ? AND " +
+                            "(dt.MaTrangThai LIKE 'MTT001') AND " +
+                            "dt.TrangthaiHienThi = 1";
+
+
+            PreparedStatement ps = conn.prepareStatement(sqlLisDeTaiNopBaoCao);
+            ps.setString(1, MaTK);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Detai detai = new Detai();
+                detai.setMaDT(rs.getString("MaDT"));
+                detai.setTenDeTai(rs.getString("TenDeTai"));
+
+                Trangthai trangthai = new Trangthai();
+                trangthai.setTenTrangThai(rs.getString("TenTrangThai"));
+                detai.setTrangthai(trangthai);
+
+                Nganh nganh = new Nganh();
+                nganh.setTenNganh(rs.getString("TenNganh"));
+                detai.setNganh(nganh);
+
+                Giangvien giangvien = new Giangvien();
+                giangvien.setTenGV(rs.getString("TenGV"));
+                detai.setGiangvien(giangvien);
+                detais.add(detai);
+            }
+        } catch (SQLException e) {
+            HandleExeption.printSQLException(e);
+        } finally {
+            JDBCUtil.closeConnection(conn);
+        }
+        return detais;
     }
+
+}
+
 

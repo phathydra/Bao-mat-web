@@ -33,6 +33,7 @@ public class DeTaiController extends HttpServlet {
         sinhVienDAO = new SinhVienDAO();
     }
 
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
@@ -43,29 +44,39 @@ public class DeTaiController extends HttpServlet {
         String action = request.getPathInfo();
         System.out.println("Action: " + action); // Thêm dòng này để in ra giá trị của action
         try {
-            if (action.equals("/list_DeTaiController")) {
-                listdetai(request, response);
-            } else if (action.equals("/Xemchitietdetai")) {
-                ShowFormXemChiTietDeTai(request, response);
-            } else if (action.equals("/list_DeTaiCuaToi")) {
-                listdetaiCuaToi(request, response);
-            } else if (action.equals("/ShowDangky_detai")) {
-                ShowFormDangkyDetai(request, response);
-            } else if (action.equals("/Detai_DangKy")) {
-                insertDangKyMoiController(request, response);
-            } else if (action.equals("/Detai_ShowFormHuy"))
-            {
-                ShowFormHuyDetai(request, response);
-            }
-            else if(action.equals("/Detai_Huy"))
-            {
-                HuyDeTaiController(request, response);
-            }
-            else
-
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
+            switch (action) {
+                // Function for : sinh vien
+                case "/list_DeTaiController":
+                    listdetai_SinhVien(request, response);
+                    break;
+                case "/Xemchitietdetai":
+                    SV_ShowFormXemChiTietDeTai(request, response);
+                    break;
+                case "/list_DeTaiCuaToi":
+                    listdetaiCuaToi(request, response);
+                    break;
+                case "/ShowDangky_detai":
+                    ShowFormDangkyDetai(request, response);
+                    break;
+                case "/Detai_DangKy":
+                    insertDangKyMoiController(request, response);
+                    break;
+                case "/Detai_ShowFormHuy":
+                    ShowFormHuyDetai(request, response);
+                    break;
+                case "/Detai_Huy":
+                    HuyDeTaiController(request, response);
+                    break;
+                case "/Detai_ShowFormNopBC":
+                    ShowFormNopBaoCao(request, response);
+                    break;
+                case "/Detai_BaoCao":
+                    NopBaoCaoDeTai(request, response);
+                    break;
+                default:
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request, response);
+                    break;
             }
 
         } catch (SQLException ex) {
@@ -73,7 +84,7 @@ public class DeTaiController extends HttpServlet {
         }
     }
 
-    private void listdetai(HttpServletRequest request, HttpServletResponse response)
+    private void listdetai_SinhVien(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
         HttpSession session = request.getSession();
         List<Detai> listdetai = detaiDao.getAllDetai();
@@ -83,7 +94,7 @@ public class DeTaiController extends HttpServlet {
 
     }
 
-    private void ShowFormXemChiTietDeTai(HttpServletRequest request, HttpServletResponse response)
+    private void SV_ShowFormXemChiTietDeTai(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
         String MaDT = request.getParameter("MaDT");
         Detai existdetai = detaiDao.selectDetaiByMaDT(MaDT);
@@ -103,7 +114,6 @@ public class DeTaiController extends HttpServlet {
         request.setAttribute("listdetaicuatoi", listdetaicuatoi);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
         dispatcher.forward(request, response);
-
     }
 
     private void ShowFormDangkyDetai(HttpServletRequest request, HttpServletResponse response)
@@ -127,6 +137,7 @@ public class DeTaiController extends HttpServlet {
     }
     // note here for important
     private void insertDangKyMoiController(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String MaDK = request.getParameter("MaDK");
         String MaDT = request.getParameter("MaDT");
         String MaNhom = request.getParameter("MaNhom");
@@ -179,10 +190,9 @@ public class DeTaiController extends HttpServlet {
     }
 
     private void HuyDeTaiController(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String MaDT = request.getParameter("MaDT");
         String GhiChu = request.getParameter("GhiChu");
-        String MaHD = "HD0000"; // set hoi dong rong cho dang ky
-        String TrangThai = "Chờ duyệt";
         String NgayHuyString = request.getParameter("NgayHuy");
         java.sql.Date NgayKetThuc = java.sql.Date.valueOf(NgayHuyString);
         Boolean TrangthaiHienThi = Boolean.valueOf(request.getParameter("TrangthaiHienThi"));
@@ -202,8 +212,48 @@ public class DeTaiController extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+    // báo cáo đề tài :
+    private void ShowFormNopBaoCao(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        String MaTK = (String) session.getAttribute("matk");
+        // lấy thông tin mặc định sinh viên thông qua mã tài khoản
+        Sinhvien sinhvien = sinhVienDAO.selectSinhVienByMaTK(MaTK);
+        // lấy danh sách thành viên nhóm cho trước
+        List<Sinhvien> thanhviennhom = dangKyDAO.ListThanhVienNhomDangKiByMaTK(MaTK);
+        // lấy dữ liệu đăng ký : list đề tài có trạng thái đã duyệt mới có thể nộp báo cáo
+        List<Detai> deTaiNopBaoCao = dangKyDAO.ListDeTaiNopBaoCao(MaTK);
+        request.setAttribute("sinhvien", sinhvien);
+        request.setAttribute("listthanhviennhom", thanhviennhom);
+        request.setAttribute("listdetaidangky", deTaiNopBaoCao );
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_BaoCao.jsp");
+        dispatcher.forward(request, response);
+    }
 
+    private void NopBaoCaoDeTai(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String MaDT = request.getParameter("MaDT");
+        String GhiChu = request.getParameter("GhiChu");
+        String NgayHuyString = request.getParameter("NgayNop");
+        java.sql.Date NgayNop = java.sql.Date.valueOf(NgayHuyString);
+        String MaTrangThai = "MTT006"; // cho nghiem thu
+        String LinkNopBaoCao = request.getParameter("LinkDeTai");
+        // update bảng đề tài
+        Detai detai = new Detai(MaDT, GhiChu,  NgayNop, LinkNopBaoCao, MaTrangThai);
+        detaiDao.NopBaoCaoDeTai(detai);
+        // controller -> con
+        HttpSession session = request.getSession();
+        String MaTK = (String) session.getAttribute("matk");
+        List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
+        request.setAttribute("listdetaicuatoi", listdetaicuatoi);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
+        try {
+            dispatcher.forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

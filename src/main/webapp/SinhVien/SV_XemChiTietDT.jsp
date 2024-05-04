@@ -84,7 +84,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="SV_BaoCao.jsp">
+                <a class="nav-link" href="<%= request.getContextPath() %>/DETAI/Detai_ShowFormNopBC">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Nộp báo cáo đề tài</span></a>
             </li>
@@ -251,9 +251,10 @@
                                 <!-- Textbox 1 -->
                                 <div class="form-group">
                                     <label for="TenDeTai">Tên đề tài:</label>
-                                    <input type="text" value = "<c:out value = '${exdetai.tenDeTai}' />" class="form-control" id="TenDeTai" name = "TenDeTai">
+                                    <textarea class="form-control" id="TenDeTai" name="TenDeTai"><c:out value="${exdetai.tenDeTai}" /></textarea>
                                 </div>
                             </div>
+
 
                         </div>
                         <div class= "row">

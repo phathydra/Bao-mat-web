@@ -82,7 +82,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link" href="SV_BaoCao.jsp">
+                <a class="nav-link" href="<%= request.getContextPath() %>/DETAI/Detai_ShowFormNopBC">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Nộp báo cáo đề tài</span></a>
             </li>
