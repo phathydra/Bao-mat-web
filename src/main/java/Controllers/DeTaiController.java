@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 
 import DAO.DangKyDAO;
 import DAO.SinhVienDAO;
@@ -136,36 +139,40 @@ public class DeTaiController extends HttpServlet {
     }
     // note here for important
     private void insertDangKyMoiController(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String MaDK = request.getParameter("MaDK");
-        String MaDT = request.getParameter("MaDT");
-        String MaNhom = request.getParameter("MaNhom");
-        String GhiChu = request.getParameter("GhiChu");
-        String MaHD = "HD0000"; // set hoi dong rong cho dang ky
-        String LinkDeCuong = request.getParameter("LinkDeCuong");
-        String TrangThai = "Chờ duyệt";
-        String MSGV = request.getParameter("MSGV");
-        String NgayDangKyString = request.getParameter("NgayDangKy");
-        java.sql.Date NgayDangKy = java.sql.Date.valueOf(NgayDangKyString);
-        Boolean TrangthaiHienThi = Boolean.valueOf(request.getParameter("TrangthaiHienThi"));
-        // insert :
-        Dangky dangky = new Dangky(MaDK, MaDT, MaNhom, GhiChu, MaHD, LinkDeCuong, TrangThai, MSGV, NgayDangKy, TrangthaiHienThi);
-        dangKyDAO.insertDangKyMoi(dangky);
-
-        String MaTrangThai = "MTT002";
-        // update bảng đề tài đẩy lên list detaicuatoi
-        Detai detai = new Detai(MaDT, GhiChu, MaTrangThai, MSGV, TrangthaiHienThi);
-        detaiDao.updateDeTaiDangKyMoi(detai);
-        // list dt của tôi
-        HttpSession session = request.getSession();
-        String MaTK = (String) session.getAttribute("matk");
-        List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
-        request.setAttribute("listdetaicuatoi", listdetaicuatoi);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
         try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
+            request.setCharacterEncoding("UTF-8");
+            String MaDK = request.getParameter("MaDK");
+            String MaDT = request.getParameter("MaDT");
+            String MaNhom = request.getParameter("MaNhom");
+            String GhiChu = request.getParameter("GhiChu");
+            String MaHD = "HD0000"; // set hoi dong rong cho dang ky
+            String LinkDeCuong = request.getParameter("LinkDeCuong");
+            String TrangThai = "Chờ duyệt";
+            String MSGV = request.getParameter("MSGV");
+            String NgayDangKyString = request.getParameter("NgayDangKy");
+            java.sql.Date NgayDangKy = java.sql.Date.valueOf(NgayDangKyString);
+            Boolean TrangthaiHienThi = Boolean.valueOf(request.getParameter("TrangthaiHienThi"));
+            // insert :
+            Dangky dangky = new Dangky(MaDK, MaDT, MaNhom, GhiChu, MaHD, LinkDeCuong, TrangThai, MSGV, NgayDangKy, TrangthaiHienThi);
+            dangKyDAO.insertDangKyMoi(dangky);
+
+            String MaTrangThai = "MTT002";
+            // update bảng đề tài đẩy lên list detaicuatoi
+            Detai detai = new Detai(MaDT, GhiChu, MaTrangThai, MSGV, TrangthaiHienThi);
+            detaiDao.updateDeTaiDangKyMoi(detai);
+            // list dt của tôi
+            HttpSession session = request.getSession();
+            String MaTK = (String) session.getAttribute("matk");
+            List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
+            request.setAttribute("listdetaicuatoi", listdetaicuatoi);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
+            try {
+                dispatcher.forward(request, response);
+            } catch (ServletException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (IllegalArgumentException e){
+            System.out.println("Invalid sqlDate format. Possible tampering attempt.");
         }
     }
 
@@ -189,26 +196,30 @@ public class DeTaiController extends HttpServlet {
     }
 
     private void HuyDeTaiController(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String MaDT = request.getParameter("MaDT");
-        String GhiChu = request.getParameter("GhiChu");
-        String NgayHuyString = request.getParameter("NgayHuy");
-        java.sql.Date NgayKetThuc = java.sql.Date.valueOf(NgayHuyString);
-        Boolean TrangthaiHienThi = Boolean.valueOf(request.getParameter("TrangthaiHienThi"));
-        String MaTrangThai = "MTT003";
-        // update bảng đề tài đẩy lên list detaicuatoi
-        Detai detai = new Detai(MaDT, GhiChu,  NgayKetThuc, MaTrangThai, TrangthaiHienThi);
-        detaiDao.update_HuyDeTai(detai);
-        // controller -> con
-        HttpSession session = request.getSession();
-        String MaTK = (String) session.getAttribute("matk");
-        List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
-        request.setAttribute("listdetaicuatoi", listdetaicuatoi);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
         try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
+            request.setCharacterEncoding("UTF-8");
+            String MaDT = request.getParameter("MaDT");
+            String GhiChu = request.getParameter("GhiChu");
+            String NgayHuyString = request.getParameter("NgayHuy");
+            java.sql.Date NgayKetThuc = java.sql.Date.valueOf(NgayHuyString);
+            Boolean TrangthaiHienThi = Boolean.valueOf(request.getParameter("TrangthaiHienThi"));
+            String MaTrangThai = "MTT003";
+            // update bảng đề tài đẩy lên list detaicuatoi
+            Detai detai = new Detai(MaDT, GhiChu, NgayKetThuc, MaTrangThai, TrangthaiHienThi);
+            detaiDao.update_HuyDeTai(detai);
+            // controller -> con
+            HttpSession session = request.getSession();
+            String MaTK = (String) session.getAttribute("matk");
+            List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
+            request.setAttribute("listdetaicuatoi", listdetaicuatoi);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
+            try {
+                dispatcher.forward(request, response);
+            } catch (ServletException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (IllegalArgumentException e){
+            e.getStackTrace();
         }
     }
     // báo cáo đề tài :
@@ -231,26 +242,39 @@ public class DeTaiController extends HttpServlet {
     }
 
     private void NopBaoCaoDeTai(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String MaDT = request.getParameter("MaDT");
-        String GhiChu = request.getParameter("GhiChu");
-        String NgayHuyString = request.getParameter("NgayNop");
-        java.sql.Date NgayNop = java.sql.Date.valueOf(NgayHuyString);
-        String MaTrangThai = "MTT006"; // cho nghiem thu
-        String LinkNopBaoCao = request.getParameter("LinkDeTai");
-        // update bảng đề tài
-        Detai detai = new Detai(MaDT, GhiChu,  NgayNop, LinkNopBaoCao, MaTrangThai);
-        detaiDao.NopBaoCaoDeTai(detai);
-        // controller -> con
-        HttpSession session = request.getSession();
-        String MaTK = (String) session.getAttribute("matk");
-        List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
-        request.setAttribute("listdetaicuatoi", listdetaicuatoi);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
         try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
+            request.setCharacterEncoding("UTF-8");
+            String MaDT = request.getParameter("MaDT");
+            String GhiChu = request.getParameter("GhiChu");
+            String NgayNopString = request.getParameter("NgayNop");
+            java.sql.Date NgayNop = java.sql.Date.valueOf(NgayNopString);
+            String MaTrangThai = "MTT006"; // cho nghiem thu
+            String LinkNopBaoCao = request.getParameter("LinkDeTai");
+            // update bảng đề tài
+            Detai detai = new Detai(MaDT, GhiChu, NgayNop, LinkNopBaoCao, MaTrangThai);
+            detaiDao.NopBaoCaoDeTai(detai);
+            // controller -> con
+            HttpSession session = request.getSession();
+            String MaTK = (String) session.getAttribute("matk");
+            List<Detai> listdetaicuatoi = detaiDao.getAllDetaiCuaToi(MaTK);
+            request.setAttribute("listdetaicuatoi", listdetaicuatoi);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/SinhVien/SV_DTcuatoi.jsp");
+            try {
+                dispatcher.forward(request, response);
+            } catch (ServletException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (IllegalArgumentException e){
+            e.getStackTrace();
+        }
+    }
+
+    private static boolean isValidDate(String dateString) {
+        try {
+            LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
         }
     }
 }

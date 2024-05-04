@@ -251,19 +251,19 @@
                                         <tr>
                                             <td>Họ tên:</td>
                                             <td>
-                                                <input type="text" value="<c:out value='${sv.hoTen}'/>" id="HoTen" name="HoTen" class="form-control" style="margin-left: 30px; width: 300px">
+                                                <input type="text" value="<c:out value='${sv.hoTen}'/>" id="HoTen" name="HoTen" class="form-control" style="margin-left: 30px; width: 300px" maxlength="50">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Ngày sinh:</td>
                                             <td>
-                                                <input type="date" value="<c:out value='${sv.ngaySinh}'/>" name="NgaySinh" class="form-control" style="margin-left: 30px; width: 300px">
+                                                <input type="date" value="<c:out value='${sv.ngaySinh}'/>" name="NgaySinh" class="form-control" style="margin-left: 30px; width: 300px" maxlength="10">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>CCCD:</td>
                                             <td>
-                                                <input type="text" value="<c:out value='${sv.cccd}'/>" id="CCCD" name="CCCD" class="form-control" style="margin-left: 30px; width: 300px">
+                                                <input type="text" value="<c:out value='${sv.cccd}'/>" id="CCCD" name="CCCD" class="form-control" style="margin-left: 30px; width: 300px" maxlength="12">
                                             </td>
                                         </tr>
                                         <tr>
@@ -279,7 +279,7 @@
                                         <tr>
                                             <td>Số tài khoản:</td>
                                             <td>
-                                                <input type="text" value="<c:out value='${sv.stk}'/>" id="STK" name="STK" class="form-control" style="margin-left: 30px; width: 300px">
+                                                <input type="text" value="<c:out value='${sv.stk}'/>" id="STK" name="STK" class="form-control" style="margin-left: 30px; width: 300px" maxlength="10">
                                             </td>
                                         </tr>
                                         </tbody>
@@ -307,7 +307,7 @@
                                     </div>
                                     <div>Niên khóa:</div>
                                         <div>
-                                            <input type="text" value="<c:out value="${sv.nienKhoa}"/>" id="NienKhoa" name="NienKhoa" class="form-control" style= "margin-left: 30px; width: 300px">
+                                            <input type="text" value="<c:out value="${sv.nienKhoa}"/>" id="NienKhoa" name="NienKhoa" class="form-control" style= "margin-left: 30px; width: 300px" maxlength="4">
                                         </div>
                                 </div>
                             </div>
@@ -355,7 +355,7 @@
                                                 <td>Số điện thoại:</td>
                                                 <td></td>
                                                 <td>
-                                                    <input type="text" value="<c:out value="${sv.sdt}"/>" id="SDT" name="SDT" class="form-control" style= "margin-left: 30px; width: 300px" >
+                                                    <input type="text" value="<c:out value="${sv.sdt}"/>" id="SDT" name="SDT" class="form-control" style= "margin-left: 30px; width: 300px" maxlength="10" >
                                                 </td>
                                             </tr>
 

@@ -403,7 +403,7 @@
 
                                 <div class="mb-3">
                                     <label for="NgayDangKy" class="form-label">Ngày đăng ký</label>
-                                    <input type="date" id="NgayDangky" name="NgayDangKy" value="${dangky.ngayDangKy}" class="form-control" readonly>
+                                    <input type="date" id="NgayDangky" name="NgayDangKy" value="${dangky.ngayDangKy}" class="form-control" maxlength="11" readonly>
                                 </div>
                                 <script>
                                     // Lấy ngày hiện tại

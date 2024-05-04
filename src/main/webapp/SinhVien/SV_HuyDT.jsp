@@ -375,7 +375,7 @@
                                 <!-- -->
                                 <div class="mb-3">
                                     <label for="NgayHuy" class="form-label">Ngày hủy đề tài : </label>
-                                    <input type="date" id="NgayHuy" name="NgayHuy" value="${dangky.ngayDangKy}" class="form-control" readonly>
+                                    <input type="date" id="NgayHuy" name="NgayHuy" value="${dangky.ngayDangKy}" class="form-control" maxlength="11" readonly>
                                 </div>
                                 <script>
                                     // Lấy ngày hiện tại

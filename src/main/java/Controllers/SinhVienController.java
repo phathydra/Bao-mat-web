@@ -26,6 +26,7 @@ import Models.Sinhvien;
 import DAO.SinhVienDAO;
 import Models.Taikhoan;
 import com.example.nhom221.HelloServlet;
+import com.google.protobuf.TextFormat;
 
 @WebServlet("/sinhvien/*")
 public class SinhVienController extends HttpServlet {
@@ -104,53 +105,91 @@ public class SinhVienController extends HttpServlet {
     }
 
     private void UpdateSinhVien(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String MSSV = request.getParameter("MSSV");
-        String HoTen = request.getParameter("HoTen");
-        int CCCD = Integer.parseInt(request.getParameter("CCCD"));
-        String GioiTinh = request.getParameter("GioiTinh");
-        int STK = Integer.parseInt(request.getParameter("STK"));
-        String SDT = request.getParameter("SDT");
-        String NienKhoa = request.getParameter("NienKhoa");
-        String MaTK = request.getParameter("MaTK");
-        String MaNhom = request.getParameter("MaNhom");
-        String ngaySinhStr = request.getParameter("NgaySinh");
-        String MaKhoa = request.getParameter("MaKhoa");
-        LocalDate ngaySinh = LocalDate.parse(ngaySinhStr);
-        Date ngaySinhDate = java.sql.Date.valueOf(ngaySinh);
-        String ngaySinhFormatted = ngaySinhDate.toString();
+        try {
+            request.setCharacterEncoding("UTF-8");
+            String MSSV = sanitizeAndLimitLength(request.getParameter("MSSV"), 8);
+            String HoTen = sanitizeAndLimitLength(request.getParameter("HoTen"), 50);
+            HoTen = escapeXML(HoTen);
+            String CCCDString = sanitizeAndLimitLength(request.getParameter("CCCD"), 12);
+            int CCCD = Integer.parseInt(CCCDString);
+            String GioiTinh = sanitizeAndLimitLength(request.getParameter("GioiTinh"), 3);
+            String STKStr = sanitizeAndLimitLength(request.getParameter("STK"), 10);
+            int STK = Integer.parseInt(STKStr);
+            String SDT = sanitizeAndLimitLength(request.getParameter("SDT"), 10);
+            String NienKhoa = sanitizeAndLimitLength(request.getParameter("NienKhoa"), 4);
+            String MaTK = sanitizeAndLimitLength(request.getParameter("MaTK"), 50);
+            String MaNhom = sanitizeAndLimitLength(request.getParameter("MaNhom"), 50);
+            String ngaySinhStr = sanitizeAndLimitLength(request.getParameter("NgaySinh"), 10);
+            ngaySinhStr = escapeXML(ngaySinhStr);
+            String MaKhoa = sanitizeAndLimitLength(request.getParameter("MaKhoa"), 10);
+            LocalDate ngaySinh = LocalDate.parse(ngaySinhStr);
+            Date ngaySinhDate = java.sql.Date.valueOf(ngaySinh);
 
-        Sinhvien updateSinhvien = new Sinhvien(MSSV, HoTen, MaKhoa, ngaySinhDate, CCCD, STK, SDT, NienKhoa, GioiTinh, MaTK, MaNhom);
-        sinhVienDAO.UpdateSinhVien(updateSinhvien);
-        response.sendRedirect(request.getContextPath() + "/sinhvien/AD_list_SinhVienController");
+            Sinhvien updateSinhvien = new Sinhvien(MSSV, HoTen, MaKhoa, ngaySinhDate, CCCD, STK, SDT, NienKhoa, GioiTinh, MaTK, MaNhom);
+            sinhVienDAO.UpdateSinhVien(updateSinhvien);
+            response.sendRedirect(request.getContextPath() + "/sinhvien/AD_list_SinhVienController");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Loi!");
+            // Handle the exception
+        } catch (NullPointerException e){
+            System.out.println("Loi!");
+        }
     }
 
     private void insertSinhvien(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-
-        request.setCharacterEncoding("UTF-8");
-        String MSSV = request.getParameter("MSSV");
-        String HoTen = request.getParameter("HoTen");
-        String MaKhoa = request.getParameter("MaKhoa");
-        int CCCD = Integer.parseInt(request.getParameter("CCCD"));
-        int STK = Integer.parseInt(request.getParameter("STK"));
-        String SDT = request.getParameter("SDT");
-        String NienKhoa = request.getParameter("NienKhoa");
-        String GioiTinh = request.getParameter("GioiTinh");
-        String MaNhom = request.getParameter("MaNhom");
-        String NgaysinhString = request.getParameter("NgaySinh");
-        String TrangthaiHienThi = request.getParameter("TrangthaiHienThi");
-        java.sql.Date NgaysinhDate = java.sql.Date.valueOf(NgaysinhString);
-        String MaTK = request.getParameter("MaTK");
-        String TenDangNhap = request.getParameter("TenDangNhap");
-        String Email = request.getParameter("Email");
-        String Password = request.getParameter("Password");
-        String TenLoaiTK = request.getParameter("TenLoaiTK");
-        Taikhoan insertTaikhoan = new Taikhoan(MaTK,TenDangNhap, Email, Password, HoTen, TenLoaiTK, TrangthaiHienThi);
-        taikhoanDAO.createNewTaiKhoan(insertTaikhoan);
-        Sinhvien insertsinhvien = new Sinhvien(MSSV, HoTen, MaKhoa, NgaysinhDate , CCCD, STK, SDT, NienKhoa, GioiTinh, MaTK, MaNhom, TrangthaiHienThi);
-        sinhVienDAO.insertSinhvien(insertsinhvien);
-        response.sendRedirect(request.getContextPath() + "/sinhvien/AD_list_SinhVienController");
+        try {
+            request.setCharacterEncoding("UTF-8");
+            String MSSV = request.getParameter("MSSV");
+            String HoTen = request.getParameter("HoTen");
+            String MaKhoa = request.getParameter("MaKhoa");
+            int CCCD = Integer.parseInt(request.getParameter("CCCD"));
+            int STK = Integer.parseInt(request.getParameter("STK"));
+            String SDT = request.getParameter("SDT");
+            String NienKhoa = request.getParameter("NienKhoa");
+            String GioiTinh = request.getParameter("GioiTinh");
+            String MaNhom = request.getParameter("MaNhom");
+            String NgaysinhString = request.getParameter("NgaySinh");
+            String TrangthaiHienThi = request.getParameter("TrangthaiHienThi");
+            java.sql.Date NgaysinhDate = java.sql.Date.valueOf(NgaysinhString);
+            String MaTK = request.getParameter("MaTK");
+            String TenDangNhap = request.getParameter("TenDangNhap");
+            String Email = request.getParameter("Email");
+            String Password = request.getParameter("Password");
+            String TenLoaiTK = request.getParameter("TenLoaiTK");
+            Taikhoan insertTaikhoan = new Taikhoan(MaTK, TenDangNhap, Email, Password, HoTen, TenLoaiTK, TrangthaiHienThi);
+            taikhoanDAO.createNewTaiKhoan(insertTaikhoan);
+            Sinhvien insertsinhvien = new Sinhvien(MSSV, HoTen, MaKhoa, NgaysinhDate, CCCD, STK, SDT, NienKhoa, GioiTinh, MaTK, MaNhom, TrangthaiHienThi);
+            sinhVienDAO.insertSinhvien(insertsinhvien);
+            response.sendRedirect(request.getContextPath() + "/sinhvien/AD_list_SinhVienController");
+        } catch (NumberFormatException e){
+            System.out.println("Thong tin nhap vao khong dung");
+        }
     }
+
+    private String sanitizeAndLimitLength(String input, int maxLength) {
+        if (input == null) {
+            return ""; // Return empty string if input is null
+        }
+        if (input.length() > maxLength) {
+            return input.substring(0, maxLength - 1); // Limit length if input exceeds maxLength
+        }
+        return input;
+    }
+
+
+    // Method to escape XML special characters
+    private String escapeXML(String input) {
+        if (input == null) {
+            return ""; // Return empty string if input is null
+        }
+        return input.replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("\"", "&quot;")
+                .replaceAll("'", "&apos;");
+    }
+
+
 }
 
 

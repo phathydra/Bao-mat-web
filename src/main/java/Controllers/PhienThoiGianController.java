@@ -62,19 +62,22 @@ public class PhienThoiGianController extends HttpServlet  {
     }
 
     private void themphienthoigian(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        try {
+            String MaPhienTG = request.getParameter("MaPhienTG");
+            Date NgayBatDau_DK = Date.valueOf(request.getParameter("NgayBatDau_DK"));
+            Date NgayKetThuc_DK = Date.valueOf(request.getParameter("NgayKetThuc_DK"));
+            Date NgayBatDau_XD = Date.valueOf(request.getParameter("NgayBatDau_XD"));
+            Date NgayKetThuc_XD = Date.valueOf(request.getParameter("NgayKetThuc_XD"));
+            Date NgayBatDau_NT = Date.valueOf(request.getParameter("NgayBatDau_NT"));
+            Date NgayKetThuc_NT = Date.valueOf(request.getParameter("NgayKetThuc_NT"));
 
-        String MaPhienTG = request.getParameter("MaPhienTG");
-        Date NgayBatDau_DK = Date.valueOf(request.getParameter("NgayBatDau_DK"));
-        Date NgayKetThuc_DK = Date.valueOf(request.getParameter("NgayKetThuc_DK"));
-        Date NgayBatDau_XD = Date.valueOf(request.getParameter("NgayBatDau_XD"));
-        Date NgayKetThuc_XD = Date.valueOf(request.getParameter("NgayKetThuc_XD"));
-        Date NgayBatDau_NT = Date.valueOf(request.getParameter("NgayBatDau_NT"));
-        Date NgayKetThuc_NT = Date.valueOf(request.getParameter("NgayKetThuc_NT"));
+            System.out.println("Dòng  themphienthoigian: " + MaPhienTG + " " + NgayBatDau_DK);
+            Phienthoigian phienthoigian = new Phienthoigian(MaPhienTG, NgayBatDau_DK, NgayKetThuc_DK, NgayBatDau_XD, NgayKetThuc_XD, NgayBatDau_NT, NgayKetThuc_NT);
+            phienthoigianDAO.themphienthoigian(phienthoigian);
 
-        System.out.println("Dòng  themphienthoigian: " + MaPhienTG +" " + NgayBatDau_DK);
-        Phienthoigian phienthoigian = new Phienthoigian(MaPhienTG, NgayBatDau_DK, NgayKetThuc_DK, NgayBatDau_XD, NgayKetThuc_XD, NgayBatDau_NT, NgayKetThuc_NT);
-        phienthoigianDAO.themphienthoigian(phienthoigian);
-
-        response.sendRedirect("QuanLyPhienThoiGian");
+            response.sendRedirect("QuanLyPhienThoiGian");
+        } catch (IllegalArgumentException e){
+            System.out.println("Invalid sqlDate format. Possible tampering attempt.");
+        }
     }
 }

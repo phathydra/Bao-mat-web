@@ -160,21 +160,26 @@ public class ThongBaoController extends HttpServlet {
     }
 
     private void themThongBao(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String MaTB = request.getParameter("MaTB");
-        String TenThongBao = request.getParameter("TenThongBao");
-        String NoiDungTB = request.getParameter("NoiDungTB");
+        try {
+            request.setCharacterEncoding("UTF-8");
+            String MaTB = request.getParameter("MaTB");
+            String TenThongBao = request.getParameter("TenThongBao");
+            String NoiDungTB = request.getParameter("NoiDungTB");
+            String NgayGuiString = request.getParameter("NgayGui");
+            java.sql.Date NgayGui = java.sql.Date.valueOf(NgayGuiString);
+            //String MaSoQL = request.getParameter("MaSoQL");
+            HttpSession session = request.getSession();
+            String matk = (String) session.getAttribute("matk");
 
-        Date NgayGui = Date.valueOf(request.getParameter("NgayGui"));
-        //String MaSoQL = request.getParameter("MaSoQL");
-        HttpSession session = request.getSession();
-        String matk = (String) session.getAttribute("matk");
+            System.out.println("Dòng themThongBao: " + MaTB + " " + matk);
+            //Thongbao thongbao = new Thongbao(MaTB, TenThongBao, NoiDungTB, NgayGui, MaSoQL, matk);
+            thongBaoDAO.themthongbao(MaTB, TenThongBao, NoiDungTB, NgayGui, matk);
 
-        System.out.println("Dòng  themThongBao: " + MaTB +" " + matk);
-        //Thongbao thongbao = new Thongbao(MaTB, TenThongBao, NoiDungTB, NgayGui, MaSoQL, matk);
-        thongBaoDAO.themthongbao(MaTB, TenThongBao, NoiDungTB, NgayGui, matk);
-
-        response.sendRedirect("DanhSachThongBao");
+            response.sendRedirect("DanhSachThongBao");
+        }
+        catch (IllegalArgumentException e){
+            System.out.println("Invalid sqlDate format. Possible tampering attempt.");
+        }
     }
     private void listthongbaothem(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
