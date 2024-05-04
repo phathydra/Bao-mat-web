@@ -21,6 +21,8 @@ import Models.Sinhvien;
 import Models.Taikhoan;
 import DAO.TaiKhoanDAO;
 import com.example.nhom221.HelloServlet;
+import com.example.nhom221.CSRFToken;
+
 
 @WebServlet("/Taikhoan/*")
 public class TaiKhoanController extends HttpServlet{
@@ -33,6 +35,14 @@ public class TaiKhoanController extends HttpServlet{
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String csrfToken = request.getParameter("csrfToken");
+
+        // Kiểm tra token CSRF
+        if (!CSRFToken.isValidToken(csrfToken)) {
+            // Token không hợp lệ, xử lý lỗi CSRF (ví dụ: chuyển hướng hoặc hiển thị thông báo lỗi)
+            response.sendRedirect(request.getContextPath() + "/error/csrf");
+            return;
+        }
         String action  = request.getPathInfo(); // cách lấy đường dẫn con trong trường hợp servlet chia nhánh
         try {
             if (action.equals("/login")) {
