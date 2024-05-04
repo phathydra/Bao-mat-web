@@ -40,36 +40,33 @@ public class HoidongnghiemthuController extends HttpServlet {
         String action  = request.getPathInfo();
         System.out.println("Action: " + action); // Thêm dòng này để in ra giá trị của action
         try {
-            if (action.equals("/DeTaiCanPhanCongNghiemThu"))
-            {
-                listdetaiphancongnghiemthu(request, response);
-            }
-            else if (action.equals("/ChiTietDeTaiPhanCongNghiemThu"))
-            {
-                chitietdetaiphancongnghiemthu(request, response);
+            switch (action) {
+                case "/DeTaiCanPhanCongNghiemThu":
+                    listdetaiphancongnghiemthu(request, response);
+                    break;
+                case "/ChiTietDeTaiPhanCongNghiemThu":
+                    chitietdetaiphancongnghiemthu(request, response);
 
-            }
-            else if (action.equals("/PhanCongNghiemThu"))
-            {
+                    break;
+                case "/PhanCongNghiemThu":
 
-                phancongnghiemthu(request, response);
-            }
-            else if (action.equals("/DeTaiCanPhanCongDuyet"))
-            {
-                listdetaiphancongduyet(request, response);
-            }else if (action.equals("/ChiTietDeTaiPhanCongDuyet"))
-            {
-                chitietdetaiphancongduyet(request, response);
+                    phancongnghiemthu(request, response);
+                    break;
+                case "/DeTaiCanPhanCongDuyet":
+                    listdetaiphancongduyet(request, response);
+                    break;
+                case "/ChiTietDeTaiPhanCongDuyet":
+                    chitietdetaiphancongduyet(request, response);
 
-            }else if (action.equals("/PhanCongDuyet"))
-            {
+                    break;
+                case "/PhanCongDuyet":
 
-                phancongduyetdecuong(request, response);
-            }
-            else
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
+                    phancongduyetdecuong(request, response);
+                    break;
+                default:
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request, response);
+                    break;
             }
 
         } catch (SQLException ex) {

@@ -259,21 +259,21 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                <c:forEach var="thongbao" items="${listthongbao}" varStatus="status"  >
-                                    <tr>
-                                        <td>${status.index + 1}</td>
-                                        <td name="MaTB" value="${thongbao.maTB}">${thongbao.maTB}</td>
-                                        <td>${thongbao.tenThongBao}</td>
-                                        <td>
-                                            <fmt:formatDate value="${thongbao.ngayGui}" pattern="dd/MM/yyyy" />
-                                        </td>
-                                        <td>
-                                            <a href = "SV_Xemchitietthongbao?MaTB=<c:out value='${thongbao.maTB}' />"  class="btn btn-secondary">
-                                                <i class="fas fa-angle-double-right"></i> Details
-                                            </a>
-                                        </td>
+                                    <c:forEach var="thongbao" items="${listthongbao}" varStatus="status"  >
+                                <tr>
+                                    <td>${status.index + 1}</td>
+                                    <td name="MaTB" value="${thongbao.maTB}">${thongbao.maTB}</td>
+                                    <td>${thongbao.tenThongBao}</td>
+                                    <td>
+                                        <fmt:formatDate value="${thongbao.ngayGui}" pattern="dd/MM/yyyy" />
+                                    </td>
+                                    <td>
+                                        <a href = "SV_Xemchitietthongbao?MaTB=<c:out value='${thongbao.maTB}' />"  class="btn btn-secondary">
+                                            <i class="fas fa-angle-double-right"></i> Details
+                                        </a>
+                                    </td>
 
-                                </c:forEach>
+                                    </c:forEach>
                                 </tr>
                                 </tbody>
 

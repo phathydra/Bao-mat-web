@@ -45,20 +45,27 @@ public class GiangVienController extends HttpServlet {
             throws ServletException, IOException {
         String action  = request.getPathInfo(); // cách lấy đường dẫn con trong trường hợp servlet chia nhánh
         try {
-            if (action.equals("/ThongTinGiangVien")) {
-                showThongTinGiangVienForm(request, response);
-            } else if(action.equals("/AD_list_GiangVienController")){
-                listqlGiangVien(request, response);
-            } else if (action.equals("/AD_editGiangVien")) {
-                ShowFormEditThongTinGiangvien(request, response);
-            }  else if (action.equals("/AD_updateGiangVien")) {
-                UpdateThongTinGiangVien(request, response);
-            }else if (action.equals("/AD_InsertGiangVien")) {
-                insertGiangvien(request, response); }
-            else
-            {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
-                dispatcher.forward(request, response);
+            switch (action) {
+                case "/ThongTinGiangVien":
+                    showThongTinGiangVienForm(request, response);
+                    break;
+                case "/AD_list_GiangVienController":
+                    listqlGiangVien(request, response);
+                    break;
+                case "/AD_editGiangVien":
+                    ShowFormEditThongTinGiangvien(request, response);
+                    break;
+                case "/AD_updateGiangVien":
+                    UpdateThongTinGiangVien(request, response);
+                    break;
+                case "/AD_InsertGiangVien":
+                    insertGiangvien(request, response);
+                    break;
+                default:
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+                    dispatcher.forward(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);

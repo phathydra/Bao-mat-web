@@ -44,6 +44,7 @@ public class PhienThoiGianController extends HttpServlet  {
             }
             else
             {
+
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
                 dispatcher.forward(request, response);
             }
